@@ -1,0 +1,24 @@
+@use './utility'  as *;
+
+.container {
+    @include displayFlex;
+    flex-direction: column;
+    background-image: url(../MainPageNew/../../assets/New/bg.svg);
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+
+    .backImg {
+        width: 20%;
+        // height: 484px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .uploadVideoSection{
+        
+    }
+
+   
+}

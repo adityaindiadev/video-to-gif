@@ -1,0 +1,24 @@
+@use './utility'  as *;
+
+.header {
+    @include displayFlexRow;
+
+    justify-content: center;
+    
+
+    .logoImgContainer {
+        @include displayFlex;
+        padding: 0.5vw 6vw;
+        background-color: rgb(255, 255, 255);
+        border-radius: 0px 0px 2vw 2vw;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 10px 7px -8px rgba(0,0,0,0.1);
+        
+
+        .logoImg {
+            width: 7vw;
+            // height: 144px;
+        }
+    }
+}
