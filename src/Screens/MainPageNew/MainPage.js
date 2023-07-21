@@ -16,7 +16,28 @@ function MainPage() {
             <TitleTagline />
 
             <div className="uploadVideoSection">
-                <img src={require('../../assets/New/left-graphic.png')} alt="" className="leftGraphicImgleftGraphicImg" />
+                <img src={require('../../assets/New/left-graphic.png')} alt="leftGraphicImg" className="leftGraphicImg" />
+
+                <div className="uploadContainer">
+
+                    <div className="uploadTitle">
+                        Upload video file
+                    </div>
+
+                    <div className="uploadGround">
+                        <img src={require('../../assets/New/ic_upload.png')} className="uploadIcon">
+
+                        </img>
+                    </div>
+
+                    <div className="videoToGifIndicatorContainer">
+                        <div className="videoIconText">
+                            <img src={require('../../assets/New/ic_video.png')} className="icon"></img>
+                            <div className="text"></div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
 
