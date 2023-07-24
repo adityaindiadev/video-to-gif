@@ -1,0 +1,151 @@
+@use "./utility" as *;
+
+.uploadContainer {
+    @include displayFlexCol;
+
+    background-color: #fff;
+    // background: radial-gradient(528.03% 134.6% at 100% -6.62%, #ffffff 0%, rgba(255, 255, 255, 0.07) 100%);
+
+    // background-blend-mode: overlay;
+    // background: rgba(255, 33, 33, 1);
+
+    border: 2px solid rgba(255, 255, 255, 0.5);
+
+    width: 25vw;
+
+    border-radius: 1vw;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .uploadTitle {
+        @include displayFlex;
+        justify-content: center;
+        opacity: 1;
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 36px;
+        letter-spacing: 0.01em;
+        text-align: center;
+    }
+
+    .uploadGround {
+        @include displayFlex;
+
+        align-items: center;
+        padding: 10px 90px;
+        background-color: rgb(255, 255, 255);
+        border-radius: 15px;
+        border: 2px solid rgba(0, 101, 255, 0.16);
+        border-style: dotted;
+        .uploadIcon {
+            @include displayFlex;
+            width: 49.14px;
+            height: 49.14px;
+        }
+    }
+
+    .videoToGifIndicatorContainer {
+        @include displayFlexRow;
+        align-items: center;
+        .videoIconText {
+            @include displayFlexRow;
+
+            background-color: rgb(255, 255, 255);
+
+            padding-left: 10px;
+            // padding-right: 4.3vw;
+            border-radius: 10px;
+
+            border: 1.5px solid;
+
+            border-color: #0691f1;
+
+            align-items: center;
+
+            width: 170px;
+            height: 60px;
+
+            .icon {
+                width: 26px;
+                height: 26px;
+            }
+
+            .text {
+                margin-left: 10px;
+                // font-size: 20px;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 24px;
+                letter-spacing: 0em;
+                text-align: center;
+            }
+        }
+
+        .arrowImg {
+            width: 40px;
+            padding: 0px 20px;
+        }
+    }
+
+    .videoDetailsCard {
+        width: 452px;
+        height: 80px;
+        border: 0.5px;
+        border: 0.5px solid rgba(185, 212, 255, 1);
+        border-radius: 10px;
+        @include displayFlexRow;
+        align-items: center;
+        justify-content: space-between;
+
+        .iconFileDetailsContainer {
+            @include displayFlexRow;
+            align-items: center;
+
+            .videoDetailsIcon {
+                height: 26px;
+                width: 26px;
+                margin-left: 20px;
+            }
+            .fileNameDateContainer {
+                margin-left: 20px;
+                @include displayFlexCol;
+
+                .fileName {
+                    font-size: 20px;
+                    margin-bottom: 3px;
+                }
+                .dateTimeSize {
+                    color: rgba(4, 93, 233, 1);
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .closeIcon {
+            height: 26px;
+            width: 26px;
+            margin-right: 15px;
+        }
+    }
+
+    .convertNowBtn {
+        // background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 15px 60px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        background: linear-gradient(91.56deg, #045de9 9.33%, #09c6f9 187.58%);
+        border-radius: 10px;
+        font-family: Lato;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 29px;
+        letter-spacing: 0em;
+        text-align: center;
+    }
+}

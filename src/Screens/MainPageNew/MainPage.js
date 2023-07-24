@@ -2,6 +2,9 @@ import React from 'react'
 import './MainPage.scss'
 import Header from './Header'
 import TitleTagline from './TitleTagline'
+import UploadContainer from './UploadContainer'
+
+
 
 
 
@@ -18,26 +21,9 @@ function MainPage() {
             <div className="uploadVideoSection">
                 <img src={require('../../assets/New/left-graphic.png')} alt="leftGraphicImg" className="leftGraphicImg" />
 
-                <div className="uploadContainer">
+                <UploadContainer/>    
 
-                    <div className="uploadTitle">
-                        Upload video file
-                    </div>
 
-                    <div className="uploadGround">
-                        <img src={require('../../assets/New/ic_upload.png')} className="uploadIcon">
-
-                        </img>
-                    </div>
-
-                    <div className="videoToGifIndicatorContainer">
-                        <div className="videoIconText">
-                            <img src={require('../../assets/New/ic_video.png')} className="icon"></img>
-                            <div className="text"></div>
-                        </div>
-                    </div>
-
-                </div>
             </div>
 
 

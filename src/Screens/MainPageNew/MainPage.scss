@@ -29,55 +29,6 @@
             width: 20vw;
         }
 
-        .uploadContainer {
-            @include displayFlexCol;
-
-            // background-color: rgba(255, 255, 255, 0.3);
-            background: radial-gradient(528.03% 134.6% at 100% -6.62%, #ffffff 0%, rgba(255, 255, 255, 0.07) 100%)
-                /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-            background-blend-mode: overlay;
-            background: rgba(255, 255, 255, 0.5);
-
-            border: 2px solid rgba(255, 255, 255, 0.5);
-
-            width: 25vw;
-
-            border-radius: 1vw;
-            align-items: center;
-            justify-content: space-evenly;
-
-            .uploadTitle {
-                @include displayFlex;
-                justify-content: center;
-                opacity: 1;
-            }
-
-            .uploadGround {
-                @include displayFlex;
-
-                align-items: center;
-                padding: 10px 70px;
-                background-color: red;
-                .uploadIcon {
-                    @include displayFlex;
-                    width: 49.14px;
-                    height: 49.14px;
-                }
-            }
-
-            .videoToGifIndicatorContainer {
-                .videoIconText {
-
-                    .icon{
-                        width: 26px;
-                    }
-                    
-                    .text{
-
-                    }
-
-                }
-            }
-        }
+      
     }
 }
