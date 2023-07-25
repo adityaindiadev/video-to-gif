@@ -9,7 +9,7 @@
     background-size: cover;
 
     .backImg {
-        width: 20%;
+        width: 14%;
         // height: 484px;
         position: absolute;
         bottom: 0;
@@ -19,14 +19,14 @@
     .uploadVideoSection {
         @include displayFlexRow;
         padding-right: 100px;
-        margin-top: 5vh;
-        width: 75%;
+        margin-top: 8vh;
+        width: 68%;
         // background-color: red;
         justify-content: space-between;
         align-self: center;
 
         .leftGraphicImg {
-            width: 20vw;
+            width: 22vw;
         }
 
       

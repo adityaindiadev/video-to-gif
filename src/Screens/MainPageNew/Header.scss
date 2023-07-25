@@ -8,7 +8,7 @@
 
     .logoImgContainer {
         @include displayFlex;
-        padding: 0.5vw 6vw;
+        padding: 0.2vw 4vw;
         background-color: rgb(255, 255, 255);
         border-radius: 0px 0px 2vw 2vw;
         justify-content: center;
@@ -17,7 +17,7 @@
         
 
         .logoImg {
-            width: 7vw;
+            width: 6vw;
             // height: 144px;
         }
     }
