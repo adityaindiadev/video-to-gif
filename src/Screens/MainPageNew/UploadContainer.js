@@ -126,7 +126,7 @@ function UploadContainer() {
         ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(video));
 
         // Run the FFMpeg command
-        await ffmpeg.run('-i', 'test.mp4', '-t', '10', '-ss', '3', '-f', 'gif', 'out.gif');
+        await ffmpeg.run('-i', 'test.mp4', '-t', '30', '-ss', '3', '-f', 'gif', 'out.gif');
 
         // Read the result
         const data = ffmpeg.FS('readFile', 'out.gif');
@@ -136,6 +136,38 @@ function UploadContainer() {
         setReady(true);
         setGif(url)
     }
+
+    function removeLastOccurrence(inputString, textToRemove) {
+        // Find the index of the last occurrence of the text
+        const lastIndex = inputString.lastIndexOf(textToRemove);
+
+        // If the text is not found, return the original string
+        if (lastIndex === -1) {
+            return inputString;
+        }
+
+        // Remove the last occurrence using slice
+        const modifiedString = inputString.slice(0, lastIndex) + inputString.slice(lastIndex + textToRemove.length);
+
+        return modifiedString;
+    }
+
+    function getFileExtension(fileName) {
+        var re = /(?:\.([^.]+))?$/;
+
+        return re.exec(fileName)[1];
+    }
+
+    function getFileNameAndExtension(fileNameWithExtension) {
+
+        const FileExtension = getFileExtension(fileNameWithExtension)
+
+        const fileName = removeLastOccurrence(fileNameWithExtension, "." + FileExtension)
+
+        return { fileName, FileExtension }
+
+    }
+
 
 
     function getFileFromUser(files) {
@@ -150,19 +182,25 @@ function UploadContainer() {
         console.log("filesArray:", formatBytes(filesArray[0].size))
         console.log("filesArray:", filesArray[0].name)
 
-        const fileName = String(filesArray[0].name)
-        const fileNameArray = fileName.split('.')
+        const fileNameWithExtension = String(filesArray[0].name)
 
-        console.log("filesArray:", fileNameArray[0].length)
+        // const fileNameArray = fileNameWithExtension.split('.')
 
-        if (fileNameArray[0].length > 15) {
-            const tempName = fileNameArray[0].slice(0, 15) + '... .' + fileNameArray[fileNameArray.length - 1]
+        // console.log("filesArray:", fileNameArray[0].length)
+
+        console.log('getFileNameAndExtension()', getFileNameAndExtension(fileNameWithExtension));
+
+        const { fileName,
+            FileExtension } = getFileNameAndExtension(fileNameWithExtension)
+
+        if (String(fileName).length > 15) {
+            const tempName = String(fileName).slice(0, 20) + '... .' + FileExtension
             setvideoName(tempName)
 
             console.log("if", tempName);
         }
         else {
-            setvideoName(fileName)
+            setvideoName(fileNameWithExtension)
             console.log("else");
         }
 

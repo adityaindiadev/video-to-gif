@@ -3,6 +3,7 @@ import './MainPage.scss'
 import Header from './Header'
 import TitleTagline from './TitleTagline'
 import UploadContainer from './UploadContainer'
+import Logger from './Logger'
 
 
 
@@ -26,7 +27,7 @@ function MainPage() {
 
             </div>
 
-
+        <Logger/>
 
         </div>
     )

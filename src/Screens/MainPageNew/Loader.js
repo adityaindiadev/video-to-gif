@@ -2,6 +2,7 @@ import React from 'react'
 import { BallTriangle } from 'react-loader-spinner';
 
 import './Loader.scss'
+import Logger from './Logger';
 
 function Loader() {
     return (
@@ -19,6 +20,7 @@ function Loader() {
                     wrapperStyle=""
                     visible={true}
                 />
+                {/* <Logger/> */}
             </div>
         </>
     )
