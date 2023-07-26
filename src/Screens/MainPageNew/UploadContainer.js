@@ -53,7 +53,7 @@ const UploadGround = ({ getFile = () => { }, extraCallback = () => { } }) => {
     )
 }
 
-function VideoDetailsCard({title='', dateTimeSize='', cancel = () => { } }) {
+function VideoDetailsCard({ title = '', dateTimeSize = '', cancel = () => { } }) {
     return (
         <div className="videoDetailsCard">
             <div className="iconFileDetailsContainer">
@@ -126,7 +126,7 @@ function UploadContainer() {
         ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(video));
 
         // Run the FFMpeg command
-        await ffmpeg.run('-i', 'test.mp4', '-t', '3', '-ss', '0.0', '-f', 'gif', 'out.gif');
+        await ffmpeg.run('-i', 'test.mp4', '-t', '10', '-ss', '3', '-f', 'gif', 'out.gif');
 
         // Read the result
         const data = ffmpeg.FS('readFile', 'out.gif');
@@ -145,8 +145,8 @@ function UploadContainer() {
         setVideo(files?.item(0))
         const filesArray = Array.from(files)
         console.log("filesArray:", filesArray[0])
-        console.log("filesArray:", moment(filesArray[0].lastModifiedDate).format('DD/MM/YYYY') )
-        console.log("filesArray:", moment(filesArray[0].lastModifiedDate).format('h:mm:ss A') )
+        console.log("filesArray:", moment(filesArray[0].lastModifiedDate).format('DD/MM/YYYY'))
+        console.log("filesArray:", moment(filesArray[0].lastModifiedDate).format('h:mm:ss A'))
         console.log("filesArray:", formatBytes(filesArray[0].size))
         console.log("filesArray:", filesArray[0].name)
 
@@ -156,12 +156,12 @@ function UploadContainer() {
         console.log("filesArray:", fileNameArray[0].length)
 
         if (fileNameArray[0].length > 15) {
-            const tempName = fileNameArray[0].slice(0, 15) + '... .' + fileNameArray[fileNameArray.length-1]
+            const tempName = fileNameArray[0].slice(0, 15) + '... .' + fileNameArray[fileNameArray.length - 1]
             setvideoName(tempName)
 
             console.log("if", tempName);
         }
-        else{
+        else {
             setvideoName(fileName)
             console.log("else");
         }
@@ -173,7 +173,7 @@ function UploadContainer() {
         // const date = moment(new Date(dateString).toISOString())
 
         // return moment(date).format('MMMM-YYYY')
-        
+
 
     }
 
@@ -242,15 +242,15 @@ function UploadContainer() {
                 }}
                     title={'Download'}
                 /> :
-                video ?
-                    <Button onClick={() => {
+                    video ?
+                        <Button onClick={() => {
 
-                        convertToGif()
+                            convertToGif()
 
-                    }}
-                        title={'Convert Now'}
-                    /> 
-                    : <></>
+                        }}
+                            title={'Convert Now'}
+                        />
+                        : <></>
                 }
 
 
