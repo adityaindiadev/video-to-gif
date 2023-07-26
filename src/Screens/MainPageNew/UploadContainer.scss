@@ -11,9 +11,9 @@
 
     border: 2px solid rgba(255, 255, 255, 0.5);
 
-    width: 533.4px;
+    width: 28vw;
 
-    border-radius: 19.05px;
+    border-radius: 1vw;
     align-items: center;
     justify-content: space-evenly;
 
@@ -24,17 +24,17 @@
     }
 
     .previewGif {
-        width: 452px;
-        height: 183px;
+        width: 23.727vw;
+        height: 9.606vw;
     }
 
     .uploadTitle {
         @include displayFlex;
         justify-content: center;
         opacity: 1;
-        font-size: 24px;
+        font-size: 1.821vw;
         font-weight: 600;
-        line-height: 36px;
+        line-height: 2.731vw;
         letter-spacing: 0.01em;
         text-align: center;
     }
@@ -43,15 +43,15 @@
         @include displayFlex;
         cursor: pointer;
         align-items: center;
-        padding: 10px 90px;
+        padding: 0.759vw 6.829vw;
         background-color: rgb(255, 255, 255);
-        border-radius: 15px;
+        border-radius: 1.138vw        ;
         border: 2px solid rgba(0, 101, 255, 0.16);
         border-style: dotted;
         .uploadIcon {
             @include displayFlex;
-            width: 49.14px;
-            height: 49.14px;
+            width: 3.728vw;
+            height: 3.728vw;
         }
     }
 
@@ -63,9 +63,9 @@
 
             background-color: rgb(255, 255, 255);
 
-            padding-left: 10px;
-        
-            border-radius: 10px;
+            padding-left: 0.759vw;
+            // padding-right: 4.3vw;
+            border-radius: 0.759vw;
 
             border: 1.5px solid;
 
@@ -73,71 +73,72 @@
 
             align-items: center;
 
-            width: 170px;
-            height: 60px;
+            width: 8.924vw;
+            height: 3.15vw;
             z-index: 2;
 
             .icon {
-                width: 26px;
-                height: 26px;
+                width: 1.365vw;
+                height: 1.365vw;
             }
 
             .text {
-                margin-left: 10px;
+                margin-left: 0.525vw;
                 // font-size: 20px;
-                font-size: 20px;
+                font-size: 1.05vw;
                 font-weight: 500;
-                line-height: 24px;
+                line-height: 1.26vw;
                 letter-spacing: 0em;
                 text-align: center;
             }
         }
 
         .arrowImg {
-            width: 40px;
-            padding: 0px 20px;
+            width: 2.1vw;
+            padding: 0px 1.05vw            ;
         }
     }
 
     .videoDetailsCard {
-        width: 452px;
-        height: 80px;
+        width: 23.727vw;
+        height: 4.199vw;
         border: 0.5px;
         border: 0.5px solid rgba(185, 212, 255, 1);
-        border-radius: 10px;
+        border-radius: 0.525vw;        
         @include displayFlexRow;
         align-items: center;
         justify-content: space-between;
         background-color: rgb(255, 255, 255);
         z-index: 1;
+        overflow: hidden;
 
         .iconFileDetailsContainer {
             @include displayFlexRow;
             align-items: center;
 
             .videoDetailsIcon {
-                height: 26px;
-                width: 26px;
-                margin-left: 20px;
+                height: 1.365vw;
+                width: 1.365vw;
+                margin-left: 1.05vw;
             }
             .fileNameDateContainer {
-                margin-left: 20px;
+                margin-left: 1.05vw;
                 @include displayFlexCol;
 
                 .fileName {
-                    font-size: 20px;
-                    margin-bottom: 3px;
+                    font-size: 1.05vw;
+                    margin-bottom: 0.157vw;
                 }
                 .dateTimeSize {
                     color: rgba(4, 93, 233, 1);
-                    font-size: 14px;
+                    font-size: 0.735vw;
                 }
             }
         }
 
         .closeIcon {
-            height: 26px;
-            width: 26px;
+            height: 1.365vw;
+            width: 1.365vw;
             // margin-right: 15px;
         }
     }
@@ -146,18 +147,18 @@
         // background-color: #4caf50;
         border: none;
         color: white;
-        padding: 15px 60px;
+        padding: 0.787vw 3.15vw;
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
+        font-size: 0.84vw;
+        margin: 0.21vw 0.105px;
         cursor: pointer;
         background: linear-gradient(91.56deg, #045de9 9.33%, #09c6f9 187.58%);
-        border-radius: 10px;
-        font-size: 24px;
+        border-radius: 0.525vw;
+        font-size: 1.26vw;
         font-weight: 500;
-        line-height: 29px;
+        line-height: 1.522vw;
         letter-spacing: 0em;
         text-align: center;
     }

@@ -18,15 +18,16 @@
 
     .uploadVideoSection {
         @include displayFlexRow;
-        padding-right: 100px;
-        margin-top: 8vh;
+        padding-right: 7.587vw;
+        // margin-top: 8vh;
+        margin-top: 3.5vw;
         width: 68%;
         // background-color: red;
         justify-content: space-between;
         align-self: center;
 
         .leftGraphicImg {
-            width: 419.1px;
+            width: 22vw;
         }
 
       
