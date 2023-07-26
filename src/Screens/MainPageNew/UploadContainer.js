@@ -104,6 +104,7 @@ function Button({ title, onClick, downloadBtn = false, downloadURL }) {
 function UploadContainer() {
 
     const [showPopUp, setshowPopUp] = useState(false)
+    const [showErrorPopUp, setshowErrorPopUp] = useState(false)
 
     const [ready, setReady] = useState(false);
     const [video, setVideo] = useState();
@@ -112,8 +113,19 @@ function UploadContainer() {
     const [dateTimeSize, setdateTimeSize] = useState('')
 
     const load = async () => {
-        await ffmpeg.load();
-        setReady(true);
+
+        try {
+
+            await ffmpeg.load();
+            setshowErrorPopUp(false)
+            setReady(true);
+        }
+        catch (error) {
+            // Handle any other unexpected errors that might occur during FFmpeg Wasm usage
+            console.error("Error while using FFmpeg Wasm:", error);
+            setshowErrorPopUp(true)
+        }
+        
     }
 
     useEffect(() => {
@@ -310,6 +322,12 @@ function UploadContainer() {
                     setGif(null)
                     setVideo(null)
                 }} />
+
+                : <></>}
+
+
+            {showErrorPopUp ?
+                <PopUp errorPopup />
 
                 : <></>}
 
