@@ -12,6 +12,8 @@
     border: 2px solid rgba(255, 255, 255, 0.5);
 
     width: 28vw;
+    height: 22.798vw;
+    // height: 25vw;
 
     border-radius: 1vw;
     align-items: center;
@@ -19,13 +21,19 @@
 
     box-shadow: 0px 0px 16px -14px;
 
+
     input[type="file"] {
         display: none;
     }
 
     .previewGif {
-        width: 23.727vw;
+        width:  23.727vw;
         height: 9.606vw;
+        overflow: scroll;
+        &:hover{
+            overflow: visible
+        }
+        z-index: 3
     }
 
     .uploadTitle {
@@ -37,6 +45,7 @@
         line-height: 2.731vw;
         letter-spacing: 0.01em;
         text-align: center;
+        line-height: 1
     }
 
     .uploadGround {
@@ -155,11 +164,55 @@
         margin: 0.21vw 0.105px;
         cursor: pointer;
         background: linear-gradient(91.56deg, #045de9 9.33%, #09c6f9 187.58%);
+        // background: linear-gradient(91.56deg, #FF0000 9.33%, #f69535 187.58%);
         border-radius: 0.525vw;
         font-size: 1.26vw;
         font-weight: 500;
         line-height: 1.522vw;
         letter-spacing: 0em;
         text-align: center;
+    }
+
+    .cancelBtn{
+       
+            // background-color: #4caf50;
+            border: none;
+            color: white;
+            padding: 0.787vw 3.15vw;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.84vw;
+            margin: 0.21vw 0.105px;
+            cursor: pointer;
+            // background: linear-gradient(91.56deg, #045de9 9.33%, #09c6f9 187.58%);
+            background: linear-gradient(91.56deg, #FF0000 9.33%, #f69535 187.58%);
+            border-radius: 0.525vw;
+            font-size: 1.26vw;
+            font-weight: 500;
+            line-height: 1.522vw;
+            letter-spacing: 0em;
+            text-align: center;
+        
+    }
+
+
+    .progressBarContainer{
+        // background-color: red;
+        width: 85.4%;
+        @include displayFlexRow;
+        align-items: center;
+        justify-content: space-between;
+
+        .progressBar{
+
+            width: 80%;
+            accent-color: #045de9;
+
+        }
+
+        .progressValue{
+                font-size: 1.2vw
+        }
     }
 }

@@ -7,6 +7,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import Loader from './Loader';
 import dummyGif from '../../assets/original.webp'
 import moment from 'moment/moment';
+import ReactFreezeframe from 'react-freezeframe';
 const ffmpeg = createFFmpeg({ log: true });
 
 function formatBytes(bytes, decimals = 2) {
@@ -75,7 +76,7 @@ function VideoDetailsCard({ title = '', dateTimeSize = '', cancel = () => { } })
 }
 
 
-function Button({ title, onClick, downloadBtn = false, downloadURL }) {
+function Button({ title, onClick, downloadBtn = false, downloadURL, cancelBtn = false }) {
 
     return (
         <>
@@ -89,7 +90,7 @@ function Button({ title, onClick, downloadBtn = false, downloadURL }) {
                     <button onClick={() => {
                         onClick(true)
                         // convertToGif()
-                    }} className='convertNowBtn'>
+                    }} className={cancelBtn ? 'cancelBtn' : 'convertNowBtn'}>
 
                         {title}
                     </button>
@@ -112,6 +113,7 @@ function UploadContainer() {
     const [videoName, setvideoName] = useState('')
     const [dateTimeSize, setdateTimeSize] = useState('')
     const [progress, setProgress] = useState(0);
+    const [isprogressStart, setisprogressStart] = useState(false);
 
     const load = async () => {
 
@@ -126,7 +128,7 @@ function UploadContainer() {
             console.error("Error while using FFmpeg Wasm:", error);
             setshowErrorPopUp(true)
         }
-        
+
     }
 
     useEffect(() => {
@@ -139,11 +141,14 @@ function UploadContainer() {
         ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(video));
 
         ffmpeg.setProgress(({ ratio }) => {
-            setProgress(ratio * 100);
-          });
-
+            console.log('progress', ratio);
+            setProgress(parseFloat(ratio * 100).toFixed(1));
+        });
+        setisprogressStart(true)
         // Run the FFMpeg command
-        await ffmpeg.run('-i', 'test.mp4', '-t', '30', '-ss', '3', '-f', 'gif', 'out.gif');
+        await ffmpeg.run('-i', 'test.mp4', '-t', '5', '-ss', '3', '-f', 'gif', 'out.gif');
+
+        
 
         // Read the result
         const data = ffmpeg.FS('readFile', 'out.gif');
@@ -152,6 +157,12 @@ function UploadContainer() {
         const url = URL.createObjectURL(new Blob([data.buffer], { type: 'image/gif' }));
         // setReady(true);
         setGif(url)
+    }
+
+    function cancelAction(params) {
+
+        // ffmpeg.exit()
+        
     }
 
     function removeLastOccurrence(inputString, textToRemove) {
@@ -254,7 +265,7 @@ function UploadContainer() {
             }
 
 
-            <div className="uploadContainer">
+            <div style={(video || gif) && { height: '28vw' }} className="uploadContainer">
 
                 {gif ? <></> :
 
@@ -268,7 +279,19 @@ function UploadContainer() {
 
                     <UploadGround getFile={getFileFromUser} />
                     :
-                    gif ? <img className='previewGif' src={gif} width="500" /> :
+                    gif ?
+                        <>
+                            <img className='previewGif' src={gif}  />
+                            {/* <div className='previewGif'>
+                                <ReactFreezeframe options={{
+                                    // trigger: false,
+                                    // overlay: true,
+                                    responsive: true
+                                }} src={gif} />
+                            </div> */}
+                        </>
+                        :
+
                         <VideoDetailsCard title={videoName} dateTimeSize={dateTimeSize} cancel={cancelVideo} />
                 }
 
@@ -287,8 +310,16 @@ function UploadContainer() {
 
 
 
+                {video && <div className="progressBarContainer">
 
+                    <progress className='progressBar' value={progress} max={100} />
 
+                    <div className="progressValue">
+                        {`${progress} %`}
+                    </div>
+
+                </div>
+                }
 
                 {gif ? <Button downloadURL={gif} downloadBtn={true} onClick={() => {
                     setshowPopUp(true)
@@ -297,7 +328,8 @@ function UploadContainer() {
                 }}
                     title={'Download'}
                 /> :
-                    video ?
+                    (video && isprogressStart == false) ?
+
                         <Button onClick={() => {
 
                             convertToGif()
@@ -305,7 +337,16 @@ function UploadContainer() {
                         }}
                             title={'Convert Now'}
                         />
-                        : <></>
+                        :
+                        // !progress == 0 && <Button cancelBtn onClick={() => {
+
+                        //     // cancelAction()
+
+                        // }}
+                        //     title={'Cancel Now'}
+                        // />
+                        <></>
+                        
                 }
 
 
@@ -316,7 +357,7 @@ function UploadContainer() {
 
                 {/* <input type="file" id='file-upload' onChange={(e) => setVideo(e.target.files?.item(0))} /> */}
 
-                <progress value={progress} max={100} />
+
 
 
             </div>
@@ -326,6 +367,7 @@ function UploadContainer() {
                     setshowPopUp(false)
                     setGif(null)
                     setVideo(null)
+                    setisprogressStart(false)
                 }} />
 
                 : <></>}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './MainPageOld.css';
+// import './MainPageOld.css';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 // import background from './assets/turntable-1337986_1280.jpg'
 import background from '../../assets/stars_space_darkness_night_black_sky_background_hd_space-1366x768.jpg'
