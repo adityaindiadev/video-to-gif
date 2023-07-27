@@ -6,8 +6,8 @@ import background from './assets/stars_space_darkness_night_black_sky_background
 import dummyGif from './assets/original.webp'
 import { BallTriangle } from 'react-loader-spinner';
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import MainPage from './screens/MainPageNew/MainPage';
-import MainPageOld from './screens/Old/MainPageOld';
+import MainPage from './components/MainPageNew/MainPage';
+import MainPageOld from './components/Old/MainPageOld';
 
 const ffmpeg = createFFmpeg({ log: true });
 

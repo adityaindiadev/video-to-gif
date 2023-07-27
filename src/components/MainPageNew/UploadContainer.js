@@ -146,7 +146,7 @@ function UploadContainer() {
         });
         setisprogressStart(true)
         // Run the FFMpeg command
-        await ffmpeg.run('-i', 'test.mp4', '-t', '5', '-ss', '3', '-f', 'gif', 'out.gif');
+        await ffmpeg.run('-i', 'test.mp4', '-t', '5', '-ss', '0', '-f', 'gif', 'out.gif');
 
         
 
