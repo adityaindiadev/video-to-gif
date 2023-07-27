@@ -68,7 +68,7 @@ function MainPageOld() {
 
           </video>
             :
-            <img src={dummyGif} width={500} style={{ borderRadius: 10, opacity: 0.5 }} />
+            <img src={dummyGif} width={500} style={{ borderRadius: 10, opacity: 0.5 }} alt='dummyGif'/>
           }
         </div>
 
@@ -81,7 +81,7 @@ function MainPageOld() {
 
           </>
         }
-        {gif && <> <h3>Result</h3><img src={gif} width="500" /></>}
+        {gif && <> <h3>Result</h3><img src={gif} width="500" alt='gif' /></>}
 
       </div>
 

@@ -24,7 +24,7 @@ function formatBytes(bytes, decimals = 2) {
 
 function VideoToGifIndicatorContainer({ icon, text }) {
     return (<div className="videoIconText">
-        <img src={icon} className="icon"></img>
+        <img src={icon} className="icon" alt='icon'></img>
         <div className="text">{text}</div>
     </div>)
 
@@ -111,6 +111,7 @@ function UploadContainer() {
     const [gif, setGif] = useState();
     const [videoName, setvideoName] = useState('')
     const [dateTimeSize, setdateTimeSize] = useState('')
+    const [progress, setProgress] = useState(0);
 
     const load = async () => {
 
@@ -133,9 +134,13 @@ function UploadContainer() {
     }, [])
 
     const convertToGif = async () => {
-        setReady(false);
+        // setReady(false);
         // Write the file to memory 
         ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(video));
+
+        ffmpeg.setProgress(({ ratio }) => {
+            setProgress(ratio * 100);
+          });
 
         // Run the FFMpeg command
         await ffmpeg.run('-i', 'test.mp4', '-t', '30', '-ss', '3', '-f', 'gif', 'out.gif');
@@ -145,7 +150,7 @@ function UploadContainer() {
 
         // Create a URL
         const url = URL.createObjectURL(new Blob([data.buffer], { type: 'image/gif' }));
-        setReady(true);
+        // setReady(true);
         setGif(url)
     }
 
@@ -311,7 +316,7 @@ function UploadContainer() {
 
                 {/* <input type="file" id='file-upload' onChange={(e) => setVideo(e.target.files?.item(0))} /> */}
 
-
+                <progress value={progress} max={100} />
 
 
             </div>

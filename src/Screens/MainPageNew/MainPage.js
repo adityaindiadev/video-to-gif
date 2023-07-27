@@ -27,7 +27,7 @@ function MainPage() {
 
             </div>
 
-        <Logger/>
+        {/* <Logger/> */}
 
         </div>
     )
