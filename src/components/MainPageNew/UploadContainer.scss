@@ -52,7 +52,7 @@
         @include displayFlex;
         cursor: pointer;
         align-items: center;
-        padding: 0.759vw 6.829vw;
+        padding: 1.759vw 6.829vw;
         background-color: rgb(255, 255, 255);
         border-radius: 1.138vw        ;
         border: 2px solid rgba(0, 101, 255, 0.16);
@@ -101,6 +101,42 @@
                 text-align: center;
             }
         }
+        .timeInputContainer {
+            @include displayFlexRow;
+
+            background-color: rgb(255, 255, 255);
+
+            padding-left: 0.759vw;
+            // padding-right: 4.3vw;
+            border-radius: 0.759vw;
+
+            border: 1.5px solid;
+
+            border-color: #0691f1;
+
+            align-items: center;
+
+            width: 8.924vw;
+            height: 3.15vw;
+            z-index: 2;
+
+            .secIndicator {
+                width: 1.365vw;
+                height: 1.365vw;
+            }
+
+            .timeInput {
+                margin-left: 0.525vw;
+                // font-size: 20px;
+                font-size: 1.05vw;
+                font-weight: 500;
+                line-height: 1.26vw;
+                letter-spacing: 0em;
+                text-align: center;
+            }
+        }
+
+        
 
         .arrowImg {
             width: 2.1vw;

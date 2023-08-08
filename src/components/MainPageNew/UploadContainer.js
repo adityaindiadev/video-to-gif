@@ -31,6 +31,16 @@ function VideoToGifIndicatorContainer({ icon, text }) {
 
 }
 
+function VideoToGifTimeInput({ icon, text }) {
+    return (<div className="timeInputContainer">
+        <div className="secIndicator">
+
+        </div>
+        <div className="timeInput">{text}</div>
+    </div>)
+
+}
+
 const UploadGround = ({ getFile = () => { }, extraCallback = () => { } }) => {
 
     return (
@@ -148,7 +158,7 @@ function UploadContainer() {
         // Run the FFMpeg command
         await ffmpeg.run('-i', 'test.mp4', '-t', '5', '-ss', '0', '-f', 'gif', 'out.gif');
 
-        
+
 
         // Read the result
         const data = ffmpeg.FS('readFile', 'out.gif');
@@ -162,7 +172,7 @@ function UploadContainer() {
     function cancelAction(params) {
 
         // ffmpeg.exit()
-        
+
     }
 
     function removeLastOccurrence(inputString, textToRemove) {
@@ -265,7 +275,7 @@ function UploadContainer() {
             }
 
 
-            <div style={(video || gif) && { height: '28vw' }} className="uploadContainer">
+            <div style={(video || gif) && { height: '26vw' }} className="uploadContainer">
 
                 {gif ? <></> :
 
@@ -281,7 +291,7 @@ function UploadContainer() {
                     :
                     gif ?
                         <>
-                            <img className='previewGif' src={gif}  />
+                            <img className='previewGif' src={gif} />
                             {/* <div className='previewGif'>
                                 <ReactFreezeframe options={{
                                     // trigger: false,
@@ -300,17 +310,7 @@ function UploadContainer() {
                 } */}
 
 
-
-                <div className="videoToGifIndicatorContainer">
-                    <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_video.png')} text={'Video'} />
-
-                    <img src={require('../../assets/New/ic_arrow.png')} alt="arrowImg" className="arrowImg" />
-                    <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_gif.png')} text={'Gif'} />
-                </div>
-
-
-
-                {video && <div className="progressBarContainer">
+                {isprogressStart && <div className="progressBarContainer">
 
                     <progress className='progressBar' value={progress} max={100} />
 
@@ -320,6 +320,26 @@ function UploadContainer() {
 
                 </div>
                 }
+
+
+                <div className="videoToGifIndicatorContainer">
+                    <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_video.png')} text={'Video'} />
+
+                    <img src={require('../../assets/New/ic_arrow.png')} alt="arrowImg" className="arrowImg" />
+                    <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_gif.png')} text={'Gif'} />
+                </div>
+
+
+                <div className="videoToGifIndicatorContainer">
+                    <VideoToGifTimeInput icon={require('../../assets/New/ic_video.png')} text={'Video'} />
+
+                    <img src={require('../../assets/New/ic_arrow.png')} alt="arrowImg" className="arrowImg" />
+                    <VideoToGifTimeInput icon={require('../../assets/New/ic_gif.png')} text={'Gif'} />
+                </div>
+
+
+
+
 
                 {gif ? <Button downloadURL={gif} downloadBtn={true} onClick={() => {
                     setshowPopUp(true)
@@ -346,7 +366,7 @@ function UploadContainer() {
                         //     title={'Cancel Now'}
                         // />
                         <></>
-                        
+
                 }
 
 
