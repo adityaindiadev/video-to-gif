@@ -31,13 +31,17 @@ function VideoToGifIndicatorContainer({ icon, text }) {
 
 }
 
-function VideoToGifTimeInput({ icon, text }) {
-    return (<div className="timeInputContainer">
-        <div className="secIndicator">
-
-        </div>
-        <div className="timeInput">{text}</div>
-    </div>)
+function VideoToGifTimeInput({ timeInputTitle, text, timeSec, timeMiniSec }) {
+    return (
+        <div className="timeInputMainContainer">
+            <div className="timeInputTitle">{timeInputTitle}</div>
+            <div className="timeInputContainer">
+                <div className="secIndicator">
+                    Sec
+                </div>
+                <input minLength={0} maxLength={2} size={2} type='number' className="timeInput"/>
+            </div>
+        </div>)
 
 }
 
@@ -321,6 +325,7 @@ function UploadContainer() {
                 </div>
                 }
 
+{!video ? 
 
                 <div className="videoToGifIndicatorContainer">
                     <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_video.png')} text={'Video'} />
@@ -329,13 +334,14 @@ function UploadContainer() {
                     <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_gif.png')} text={'Gif'} />
                 </div>
 
+:
+                <div className="videoToGifTimeIndicatorContainer">
+                    <VideoToGifTimeInput  text={'Video'} timeInputTitle={'Start Time'} />
 
-                <div className="videoToGifIndicatorContainer">
-                    <VideoToGifTimeInput icon={require('../../assets/New/ic_video.png')} text={'Video'} />
-
-                    <img src={require('../../assets/New/ic_arrow.png')} alt="arrowImg" className="arrowImg" />
-                    <VideoToGifTimeInput icon={require('../../assets/New/ic_gif.png')} text={'Gif'} />
+                    <div className="centerSpace"></div>
+                    <VideoToGifTimeInput text={'Gif'} timeInputTitle={'Duration'} />
                 </div>
+}
 
 
 

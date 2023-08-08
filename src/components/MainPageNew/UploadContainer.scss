@@ -27,12 +27,14 @@
     }
 
     .previewGif {
-        width:  23.727vw;
+        width: 23.727vw;
         height: 9.606vw;
         overflow: scroll;
-        &:hover{
+
+        &:hover {
             overflow: visible
         }
+
         z-index: 3
     }
 
@@ -54,9 +56,10 @@
         align-items: center;
         padding: 1.759vw 6.829vw;
         background-color: rgb(255, 255, 255);
-        border-radius: 1.138vw        ;
+        border-radius: 1.138vw;
         border: 2px solid rgba(0, 101, 255, 0.16);
         border-style: dotted;
+
         .uploadIcon {
             @include displayFlex;
             width: 3.728vw;
@@ -67,6 +70,7 @@
     .videoToGifIndicatorContainer {
         @include displayFlexRow;
         align-items: center;
+
         .videoIconText {
             @include displayFlexRow;
 
@@ -101,47 +105,117 @@
                 text-align: center;
             }
         }
-        .timeInputContainer {
-            @include displayFlexRow;
 
-            background-color: rgb(255, 255, 255);
-
-            padding-left: 0.759vw;
-            // padding-right: 4.3vw;
-            border-radius: 0.759vw;
-
-            border: 1.5px solid;
-
-            border-color: #0691f1;
-
-            align-items: center;
-
-            width: 8.924vw;
-            height: 3.15vw;
-            z-index: 2;
-
-            .secIndicator {
-                width: 1.365vw;
-                height: 1.365vw;
-            }
-
-            .timeInput {
-                margin-left: 0.525vw;
-                // font-size: 20px;
-                font-size: 1.05vw;
-                font-weight: 500;
-                line-height: 1.26vw;
-                letter-spacing: 0em;
-                text-align: center;
-            }
-        }
-
-        
 
         .arrowImg {
             width: 2.1vw;
-            padding: 0px 1.05vw            ;
+            padding: 0px 1.05vw;
         }
+    }
+
+
+    .videoToGifTimeIndicatorContainer {
+        @include displayFlexRow;
+        justify-content: space-between;
+        align-items: center;
+
+        .timeInputMainContainer {
+
+            @include displayFlexCol;
+
+            .timeInputTitle {
+                font-size: 1vw;
+                font-weight: 700;
+                margin-bottom: 0.5vw
+            }
+
+            .timeInputContainer {
+                @include displayFlexRow;
+
+
+
+                background-color: rgb(255, 255, 255);
+
+                // padding-left: 0.759vw;
+                // padding-right: 4.3vw;
+                border-radius: 0.759vw;
+
+                border: 1.5px solid;
+
+                border-color: #0691f1;
+
+                align-items: center;
+
+                width: 8.924vw;
+                height: 3.15vw;
+                z-index: 2;
+                overflow: hidden;
+
+                .secIndicator {
+                    @include displayFlex;
+                    width: 3.15vw;
+                    height: 100%;
+                    background: linear-gradient(136.51deg, #045DE9 -24.32%, #068EF1 102.43%);
+                    font-size: 1vw;
+                    font-weight: 700;
+                    color: white;
+                    justify-content: center;
+                    align-items: center;
+
+
+                }
+
+                .timeInput {
+
+
+                    margin-left: 0.525vw;
+                    // font-size: 20px;
+                    font-size: 1.05vw;
+                    font-weight: 500;
+                    /* Hide the default number input arrows */
+                    -webkit-appearance: none;
+                    -moz-appearance: textfield;
+                    appearance: textfield;
+
+                    /* Width and height adjustments for the custom styling */
+                    width: 100px;
+                    /* Adjust as needed */
+                    height: 30px;
+                    /* Adjust as needed */
+
+                    /* Remove border */
+                    border: none;
+                    background-color: transparent;
+
+                    /* Add your custom styling for the input field */
+                    padding: 5px;
+                }
+
+                /* Style the input field's arrow buttons */
+                .timeInput::-webkit-inner-spin-button,
+                .timeInput::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    margin: 0;
+                    /* Remove any default margins */
+                }
+
+                /* Optional: Add styling to indicate hover/focus states */
+                .timeInput:focus {
+                    outline: none;
+                    /* Remove default focus outline */
+                    border-color: blue;
+                    /* Add your desired focus border color */
+                }
+
+            }
+        }
+
+        .centerSpace {
+            width: 2.1vw;
+            padding: 0px 1.05vw;
+        }
+
     }
 
     .videoDetailsCard {
@@ -149,7 +223,7 @@
         height: 4.199vw;
         border: 0.5px;
         border: 0.5px solid rgba(185, 212, 255, 1);
-        border-radius: 0.525vw;        
+        border-radius: 0.525vw;
         @include displayFlexRow;
         align-items: center;
         justify-content: space-between;
@@ -166,6 +240,7 @@
                 width: 1.365vw;
                 margin-left: 1.05vw;
             }
+
             .fileNameDateContainer {
                 margin-left: 1.05vw;
                 @include displayFlexCol;
@@ -174,6 +249,7 @@
                     font-size: 1.05vw;
                     margin-bottom: 0.157vw;
                 }
+
                 .dateTimeSize {
                     color: rgba(4, 93, 233, 1);
                     font-size: 0.735vw;
@@ -209,46 +285,46 @@
         text-align: center;
     }
 
-    .cancelBtn{
-       
-            // background-color: #4caf50;
-            border: none;
-            color: white;
-            padding: 0.787vw 3.15vw;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 0.84vw;
-            margin: 0.21vw 0.105px;
-            cursor: pointer;
-            // background: linear-gradient(91.56deg, #045de9 9.33%, #09c6f9 187.58%);
-            background: linear-gradient(91.56deg, #FF0000 9.33%, #f69535 187.58%);
-            border-radius: 0.525vw;
-            font-size: 1.26vw;
-            font-weight: 500;
-            line-height: 1.522vw;
-            letter-spacing: 0em;
-            text-align: center;
-        
+    .cancelBtn {
+
+        // background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 0.787vw 3.15vw;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 0.84vw;
+        margin: 0.21vw 0.105px;
+        cursor: pointer;
+        // background: linear-gradient(91.56deg, #045de9 9.33%, #09c6f9 187.58%);
+        background: linear-gradient(91.56deg, #FF0000 9.33%, #f69535 187.58%);
+        border-radius: 0.525vw;
+        font-size: 1.26vw;
+        font-weight: 500;
+        line-height: 1.522vw;
+        letter-spacing: 0em;
+        text-align: center;
+
     }
 
 
-    .progressBarContainer{
+    .progressBarContainer {
         // background-color: red;
         width: 85.4%;
         @include displayFlexRow;
         align-items: center;
         justify-content: space-between;
 
-        .progressBar{
+        .progressBar {
 
             width: 80%;
             accent-color: #045de9;
 
         }
 
-        .progressValue{
-                font-size: 1.2vw
+        .progressValue {
+            font-size: 1.2vw
         }
     }
 }
