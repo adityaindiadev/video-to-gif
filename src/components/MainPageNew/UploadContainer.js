@@ -8,20 +8,12 @@ import Loader from './Loader';
 import dummyGif from '../../assets/original.webp'
 import moment from 'moment/moment';
 import ReactFreezeframe from 'react-freezeframe';
+import { FFprobeWorker } from "ffprobe-wasm";
+import { formatBytes, getFileNameAndExtension } from './UtilityFunctions';
+
 const ffmpeg = createFFmpeg({ log: true });
+const worker = new FFprobeWorker();
 
-function formatBytes(bytes, decimals = 2) {
-    if (!+bytes) return '0 Bytes'
-
-    const k = 1024
-    const dm = decimals < 0 ? 0 : decimals
-    // const sizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-
-    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
-}
 
 function VideoToGifIndicatorContainer({ icon, text }) {
     return (<div className="videoIconText">
@@ -31,15 +23,57 @@ function VideoToGifIndicatorContainer({ icon, text }) {
 
 }
 
-function VideoToGifTimeInput({ timeInputTitle, text, timeSec, timeMiniSec }) {
+function VideoToGifTimeInput({ timeInputTitle, minValue = '00', secValue = '00', minHandleChange = (event) => console.log('minHandleChange', event?.target?.value), secHandleChange = (event) => console.log('secHandleChange', event?.target?.value) }) {
+
+    function TimeInputComponent({ handleChange = (event) => console.log('TimeInputComponent', event), value = '00' }) {
+
+
+        const handleKeyDown = (event) => {
+            const keyCode = event.keyCode || event.which;
+
+            // Allow backspace (keyCode 8), delete (keyCode 46), arrow keys (keyCodes 37-40), numpad number keys (keyCodes 96-105), and tab (keyCode 9)
+            if (
+                keyCode === 8 ||
+                keyCode === 46 ||
+                keyCode === 9 ||
+                (keyCode >= 37 && keyCode <= 40) ||
+                (keyCode >= 96 && keyCode <= 105)
+            ) {
+                return;
+            }
+
+            const keyValue = String.fromCharCode(keyCode);
+
+            // Allow only numbers (0-9)
+            if (!/^[0-9]+$/.test(keyValue)) {
+                event.preventDefault();
+            }
+        };
+
+        return (
+            <input minLength={0} maxLength={2} size={2} type='text' className="timeInput"
+                value={value} 
+                onKeyDown={handleKeyDown}
+                onChange={handleChange}
+            />
+        )
+    }
+
+
+
+
+
+
     return (
         <div className="timeInputMainContainer">
             <div className="timeInputTitle">{timeInputTitle}</div>
             <div className="timeInputContainer">
                 <div className="secIndicator">
-                    Sec
+                    Min
                 </div>
-                <input minLength={0} maxLength={2} size={2} type='number' className="timeInput"/>
+                <TimeInputComponent key={'ForMinute'} handleChange={minHandleChange} value={minValue} />
+                <div className="colon">:</div>
+                <TimeInputComponent key={'ForSecond'} handleChange={secHandleChange} value={secValue} />
             </div>
         </div>)
 
@@ -60,7 +94,7 @@ const UploadGround = ({ getFile = () => { }, extraCallback = () => { } }) => {
                 Convert Now
             </label> */}
 
-            <input accept='video/mp4' type="file" id='file-upload' onChange={(e) => {
+            <input accept=".mp4, .mkv" type="file" id='file-upload' onChange={(e) => {
                 // getFile(e.target.files?.item(0))
                 getFile(e.target.files)
             }} />
@@ -125,6 +159,33 @@ function UploadContainer() {
     const [video, setVideo] = useState();
     const [gif, setGif] = useState();
     const [videoName, setvideoName] = useState('')
+    const [videoMetaData, setvideoMetaData] = useState(null
+        // {
+        //     "filename": "",
+        //     "nb_streams": 0,
+        //     "nb_programs": 0,
+        //     "format_name": "",
+        //     "format_long_name": "",
+        //     "start_time": "",
+        //     "duration": "",
+        //     "size": "",
+        //     "bit_rate": "",
+        //     "probe_score": 0,
+        //     "tags": {
+        //         "major_brand": "",
+        //         "minor_version": "",
+        //         "compatible_brands": "",
+        //         "creation_time": ""
+        //     }
+        // }
+    )
+
+    const [startTimeMin, setstartTimeMin] = useState("00")
+    const [startTimeSec, setstartTimeSec] = useState("00")
+
+    const [endTimeMin, setendTimeMin] = useState("00")
+    const [endTimeSec, setendTimeSec] = useState("00")
+
     const [dateTimeSize, setdateTimeSize] = useState('')
     const [progress, setProgress] = useState(0);
     const [isprogressStart, setisprogressStart] = useState(false);
@@ -148,6 +209,18 @@ function UploadContainer() {
     useEffect(() => {
         load();
     }, [])
+
+    useEffect(() => {
+
+        if (videoMetaData) {
+
+
+
+        }
+
+
+    }, [videoMetaData])
+
 
     const convertToGif = async () => {
         // setReady(false);
@@ -173,50 +246,60 @@ function UploadContainer() {
         setGif(url)
     }
 
+    const startTimeMinHandleChange = (event) => {
+        event.preventDefault()
+        const value = event?.target?.value
+        setstartTimeMin(value)
+        console.log('startTimeMinHandleChange', value)
+    }
+
+    const startTimeSecHandleChange = (event) => {
+        event.preventDefault()
+        const value = event?.target?.value
+        setstartTimeSec(value)
+        console.log('startTimeSecHandleChange', value)
+    }
+
+    const endTimeMinHandleChange = (event) => {
+        event.preventDefault()
+        const value = event?.target?.value
+        setendTimeMin(value)
+        console.log('endTimeMinHandleChange', value)
+    }
+
+    const endTimeSecHandleChange = (event) => {
+        event.preventDefault()
+        const value = event?.target?.value
+        setendTimeSec(value)
+        console.log('endTimeSecHandleChange', value)
+    }
+
+    async function getVideoInfo(videoFile) {
+
+        setReady(false);
+
+        const fileInfo = await worker.getFileInfo(videoFile);
+        console.log('getVideoInfo', fileInfo);
+
+        setvideoMetaData(fileInfo?.format)
+
+        setReady(true);
+    };
+
     function cancelAction(params) {
 
         // ffmpeg.exit()
 
     }
 
-    function removeLastOccurrence(inputString, textToRemove) {
-        // Find the index of the last occurrence of the text
-        const lastIndex = inputString.lastIndexOf(textToRemove);
-
-        // If the text is not found, return the original string
-        if (lastIndex === -1) {
-            return inputString;
-        }
-
-        // Remove the last occurrence using slice
-        const modifiedString = inputString.slice(0, lastIndex) + inputString.slice(lastIndex + textToRemove.length);
-
-        return modifiedString;
-    }
-
-    function getFileExtension(fileName) {
-        var re = /(?:\.([^.]+))?$/;
-
-        return re.exec(fileName)[1];
-    }
-
-    function getFileNameAndExtension(fileNameWithExtension) {
-
-        const FileExtension = getFileExtension(fileNameWithExtension)
-
-        const fileName = removeLastOccurrence(fileNameWithExtension, "." + FileExtension)
-
-        return { fileName, FileExtension }
-
-    }
-
-
 
     function getFileFromUser(files) {
 
         setGif(null)
+        getVideoInfo(files?.item(0))
 
         setVideo(files?.item(0))
+
         const filesArray = Array.from(files)
         console.log("filesArray:", filesArray[0])
         console.log("filesArray:", moment(filesArray[0].lastModifiedDate).format('DD/MM/YYYY'))
@@ -325,23 +408,25 @@ function UploadContainer() {
                 </div>
                 }
 
-{!video ? 
+                {!video ?
 
-                <div className="videoToGifIndicatorContainer">
-                    <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_video.png')} text={'Video'} />
+                    <div className="videoToGifIndicatorContainer">
+                        <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_video.png')} text={'Video'} />
 
-                    <img src={require('../../assets/New/ic_arrow.png')} alt="arrowImg" className="arrowImg" />
-                    <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_gif.png')} text={'Gif'} />
-                </div>
+                        <img src={require('../../assets/New/ic_arrow.png')} alt="arrowImg" className="arrowImg" />
+                        <VideoToGifIndicatorContainer icon={require('../../assets/New/ic_gif.png')} text={'Gif'} />
+                    </div>
 
-:
-                <div className="videoToGifTimeIndicatorContainer">
-                    <VideoToGifTimeInput  text={'Video'} timeInputTitle={'Start Time'} />
+                    :
+                    <div className="videoToGifTimeIndicatorContainer">
+                        {/* <VideoToGifTimeInput key={'StartTime'} text={'Video'} timeInputTitle={'Start Time'} minValue={startTimeMin} secValue={startTimeSec} minHandleChange={startTimeMinHandleChange} secHandleChange={startTimeSecHandleChange} />
 
-                    <div className="centerSpace"></div>
-                    <VideoToGifTimeInput text={'Gif'} timeInputTitle={'Duration'} />
-                </div>
-}
+                        <div className="centerSpace"></div>
+                        <VideoToGifTimeInput key={'EndTime'} text={'Gif'} timeInputTitle={'End Time'} minValue={endTimeMin} secValue={endTimeSec} minHandleChange={endTimeMinHandleChange} secHandleChange={endTimeSecHandleChange} /> */}
+                    </div>
+                }
+
+                <input type="text" value={startTimeMin}  onChange={startTimeMinHandleChange}/>
 
 
 

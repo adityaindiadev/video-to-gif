@@ -21,7 +21,6 @@
 
     box-shadow: 0px 0px 16px -14px;
 
-
     input[type="file"] {
         display: none;
     }
@@ -32,10 +31,10 @@
         overflow: scroll;
 
         &:hover {
-            overflow: visible
+            overflow: visible;
         }
 
-        z-index: 3
+        z-index: 3;
     }
 
     .uploadTitle {
@@ -47,7 +46,7 @@
         line-height: 2.731vw;
         letter-spacing: 0.01em;
         text-align: center;
-        line-height: 1
+        line-height: 1;
     }
 
     .uploadGround {
@@ -106,13 +105,11 @@
             }
         }
 
-
         .arrowImg {
             width: 2.1vw;
             padding: 0px 1.05vw;
         }
     }
-
 
     .videoToGifTimeIndicatorContainer {
         @include displayFlexRow;
@@ -120,19 +117,16 @@
         align-items: center;
 
         .timeInputMainContainer {
-
             @include displayFlexCol;
 
             .timeInputTitle {
                 font-size: 1vw;
                 font-weight: 700;
-                margin-bottom: 0.5vw
+                margin-bottom: 0.5vw;
             }
 
             .timeInputContainer {
                 @include displayFlexRow;
-
-
 
                 background-color: rgb(255, 255, 255);
 
@@ -145,6 +139,7 @@
                 border-color: #0691f1;
 
                 align-items: center;
+                justify-content: space-between;
 
                 width: 8.924vw;
                 height: 3.15vw;
@@ -155,20 +150,22 @@
                     @include displayFlex;
                     width: 3.15vw;
                     height: 100%;
-                    background: linear-gradient(136.51deg, #045DE9 -24.32%, #068EF1 102.43%);
+                    background: linear-gradient(136.51deg, #045de9 -24.32%, #068ef1 102.43%);
                     font-size: 1vw;
                     font-weight: 700;
                     color: white;
                     justify-content: center;
                     align-items: center;
+                    overflow: hidden;
+                }
 
-
+                .colon{
+                    font-size: 1.05vw;
+                    font-weight: 600;
                 }
 
                 .timeInput {
-
-
-                    margin-left: 0.525vw;
+                    // margin-left: 0.525vw;
                     // font-size: 20px;
                     font-size: 1.05vw;
                     font-weight: 500;
@@ -178,13 +175,14 @@
                     appearance: textfield;
 
                     /* Width and height adjustments for the custom styling */
-                    width: 100px;
-                    /* Adjust as needed */
-                    height: 30px;
+                    // width: 100px;
+                    // /* Adjust as needed */
+                    // height: 30px;
                     /* Adjust as needed */
 
                     /* Remove border */
                     border: none;
+                    // background-color: red;
                     background-color: transparent;
 
                     /* Add your custom styling for the input field */
@@ -207,7 +205,6 @@
                     border-color: blue;
                     /* Add your desired focus border color */
                 }
-
             }
         }
 
@@ -215,7 +212,6 @@
             width: 2.1vw;
             padding: 0px 1.05vw;
         }
-
     }
 
     .videoDetailsCard {
@@ -286,7 +282,6 @@
     }
 
     .cancelBtn {
-
         // background-color: #4caf50;
         border: none;
         color: white;
@@ -298,16 +293,14 @@
         margin: 0.21vw 0.105px;
         cursor: pointer;
         // background: linear-gradient(91.56deg, #045de9 9.33%, #09c6f9 187.58%);
-        background: linear-gradient(91.56deg, #FF0000 9.33%, #f69535 187.58%);
+        background: linear-gradient(91.56deg, #ff0000 9.33%, #f69535 187.58%);
         border-radius: 0.525vw;
         font-size: 1.26vw;
         font-weight: 500;
         line-height: 1.522vw;
         letter-spacing: 0em;
         text-align: center;
-
     }
-
 
     .progressBarContainer {
         // background-color: red;
@@ -317,14 +310,12 @@
         justify-content: space-between;
 
         .progressBar {
-
             width: 80%;
             accent-color: #045de9;
-
         }
 
         .progressValue {
-            font-size: 1.2vw
+            font-size: 1.2vw;
         }
     }
 }
