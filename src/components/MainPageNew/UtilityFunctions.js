@@ -43,11 +43,12 @@ export function getFileNameAndExtension(fileNameWithExtension) {
 }
 
 export function minutesToSeconds(minutes, seconds) {
-    return (minutes * 60) + seconds;
+    return (parseFloat(minutes) * 60) + parseFloat(seconds);
 }
 
 export function secondsToMinutes(seconds) {
-    var minutes = Math.floor(seconds / 60);
-    var remainingSeconds = seconds % 60;
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+    
     return { minutes, "seconds": remainingSeconds }
   }

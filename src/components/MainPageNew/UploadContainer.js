@@ -9,7 +9,10 @@ import dummyGif from '../../assets/original.webp'
 import moment from 'moment/moment';
 import ReactFreezeframe from 'react-freezeframe';
 import { FFprobeWorker } from "ffprobe-wasm";
-import { formatBytes, getFileNameAndExtension } from './UtilityFunctions';
+import {
+    formatBytes, getFileNameAndExtension, minutesToSeconds,
+    secondsToMinutes
+} from './UtilityFunctions';
 
 const ffmpeg = createFFmpeg({ log: true });
 const worker = new FFprobeWorker();
@@ -25,7 +28,7 @@ function VideoToGifIndicatorContainer({ icon, text }) {
 
 const TimeInputComponent = memo(({ handleChange = (event) => console.log('TimeInputComponent', event), value = '00' }) => {
 
-    console.log("TimeInputComponent");
+    // console.log("TimeInputComponent");
 
     const handleKeyDown = (event) => {
         const keyCode = event.keyCode || event.which;
@@ -60,33 +63,11 @@ const TimeInputComponent = memo(({ handleChange = (event) => console.log('TimeIn
 
 const VideoToGifTimeInput = memo(({ timeInputTitle, minValue = '00', secValue = '00', minHandleChange = (event) => console.log('minHandleChange', event?.target?.value), secHandleChange = (event) => console.log('secHandleChange', event?.target?.value) }) => {
 
-    
 
 
-    const handleKeyDown = (event) => {
-        const keyCode = event.keyCode || event.which;
-
-        // Allow backspace (keyCode 8), delete (keyCode 46), arrow keys (keyCodes 37-40), numpad number keys (keyCodes 96-105), and tab (keyCode 9)
-        if (
-            keyCode === 8 ||
-            keyCode === 46 ||
-            keyCode === 9 ||
-            (keyCode >= 37 && keyCode <= 40) ||
-            (keyCode >= 96 && keyCode <= 105)
-        ) {
-            return;
-        }
-
-        const keyValue = String.fromCharCode(keyCode);
-
-        // Allow only numbers (0-9)
-        if (!/^[0-9]+$/.test(keyValue)) {
-            event.preventDefault();
-        }
-    };
 
 
-    console.log("VideoToGifTimeInput");
+    // console.log("VideoToGifTimeInput");
 
 
     return (
@@ -245,17 +226,35 @@ function UploadContainer() {
         load();
     }, [])
 
-    useEffect(() => {
 
-        if (videoMetaData) {
+    function checkIfStartTimeIsValid() {
+        if (minutesToSeconds(startTimeMin, startTimeSec) > minutesToSeconds(endTimeMin, endTimeSec)) {
 
+            setstartTimeMin('00')
+            setstartTimeSec('00')
 
+            return false
 
         }
 
+        return true
+    }
 
-    }, [videoMetaData])
+    useEffect(() => {
 
+
+        checkIfStartTimeIsValid()
+
+    }, [startTimeMin,
+        startTimeSec])
+
+
+    function checkIfValidToConvert() {
+
+        checkIfStartTimeIsValid() && convertToGif()
+
+
+    }
 
     const convertToGif = async () => {
         // setReady(false);
@@ -268,9 +267,22 @@ function UploadContainer() {
         });
         setisprogressStart(true)
         // Run the FFMpeg command
-        await ffmpeg.run('-i', 'test.mp4', '-t', '5', '-ss', '0', '-f', 'gif', 'out.gif');
+        // await ffmpeg.run('-i', 'test.mp4', '-t', '1', '-ss', '6', '-f', 'gif', 'out.gif');
 
+        // await ffmpeg.run('-i', 'test.mp4', '-t', duration, '-ss', startTime, '-f', 'gif', 'out.gif');
 
+        const args = [
+            '-ss', String(minutesToSeconds(startTimeMin, startTimeSec)), // Start time
+            '-i', 'test.mp4',
+            '-t', String(minutesToSeconds(endTimeMin, endTimeSec) - minutesToSeconds(startTimeMin, startTimeSec)), // Duration
+            '-vf', 'fps=15,scale=320:-1:flags=lanczos', // Reduce frame rate and scale down
+            '-c:v', 'gif', // Use the GIF codec
+            '-f', 'gif', 'out.gif',
+        ];
+
+        console.log('ffmpeg args', args);
+
+        await ffmpeg.run(...args);
 
         // Read the result
         const data = ffmpeg.FS('readFile', 'out.gif');
@@ -320,6 +332,27 @@ function UploadContainer() {
 
         setReady(true);
     };
+
+    useEffect(() => {
+
+        if (videoMetaData) {
+
+            const minutes = secondsToMinutes(videoMetaData?.duration)
+            console.log("minutes", minutes);
+
+            let tempMin = minutes.minutes
+
+            if (String(tempMin).length === 1) {
+                tempMin = "0" + String(tempMin)
+            }
+
+            setendTimeMin(String(tempMin))
+            setendTimeSec(String(minutes.seconds).split('.')[0])
+
+        }
+
+
+    }, [videoMetaData])
 
     function cancelAction(params) {
 
@@ -478,7 +511,7 @@ function UploadContainer() {
 
                         <Button onClick={() => {
 
-                            convertToGif()
+                            checkIfValidToConvert()
 
                         }}
                             title={'Convert Now'}
