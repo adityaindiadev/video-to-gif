@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 import './UploadContainer.scss';
 import PopUp from './PopUp';
@@ -23,45 +23,70 @@ function VideoToGifIndicatorContainer({ icon, text }) {
 
 }
 
-function VideoToGifTimeInput({ timeInputTitle, minValue = '00', secValue = '00', minHandleChange = (event) => console.log('minHandleChange', event?.target?.value), secHandleChange = (event) => console.log('secHandleChange', event?.target?.value) }) {
+const TimeInputComponent = memo(({ handleChange = (event) => console.log('TimeInputComponent', event), value = '00' }) => {
 
-    function TimeInputComponent({ handleChange = (event) => console.log('TimeInputComponent', event), value = '00' }) {
+    console.log("TimeInputComponent");
+
+    const handleKeyDown = (event) => {
+        const keyCode = event.keyCode || event.which;
+
+        // Allow backspace (keyCode 8), delete (keyCode 46), arrow keys (keyCodes 37-40), numpad number keys (keyCodes 96-105), and tab (keyCode 9)
+        if (
+            keyCode === 8 ||
+            keyCode === 46 ||
+            keyCode === 9 ||
+            (keyCode >= 37 && keyCode <= 40) ||
+            (keyCode >= 96 && keyCode <= 105)
+        ) {
+            return;
+        }
+
+        const keyValue = String.fromCharCode(keyCode);
+
+        // Allow only numbers (0-9)
+        if (!/^[0-9]+$/.test(keyValue)) {
+            event.preventDefault();
+        }
+    };
+
+    return (
+        <input minLength={0} maxLength={2} size={2} type='text' className="timeInput"
+            value={value}
+            onKeyDown={handleKeyDown}
+            onChange={handleChange}
+        />
+    )
+})
+
+const VideoToGifTimeInput = memo(({ timeInputTitle, minValue = '00', secValue = '00', minHandleChange = (event) => console.log('minHandleChange', event?.target?.value), secHandleChange = (event) => console.log('secHandleChange', event?.target?.value) }) => {
+
+    
 
 
-        const handleKeyDown = (event) => {
-            const keyCode = event.keyCode || event.which;
+    const handleKeyDown = (event) => {
+        const keyCode = event.keyCode || event.which;
 
-            // Allow backspace (keyCode 8), delete (keyCode 46), arrow keys (keyCodes 37-40), numpad number keys (keyCodes 96-105), and tab (keyCode 9)
-            if (
-                keyCode === 8 ||
-                keyCode === 46 ||
-                keyCode === 9 ||
-                (keyCode >= 37 && keyCode <= 40) ||
-                (keyCode >= 96 && keyCode <= 105)
-            ) {
-                return;
-            }
+        // Allow backspace (keyCode 8), delete (keyCode 46), arrow keys (keyCodes 37-40), numpad number keys (keyCodes 96-105), and tab (keyCode 9)
+        if (
+            keyCode === 8 ||
+            keyCode === 46 ||
+            keyCode === 9 ||
+            (keyCode >= 37 && keyCode <= 40) ||
+            (keyCode >= 96 && keyCode <= 105)
+        ) {
+            return;
+        }
 
-            const keyValue = String.fromCharCode(keyCode);
+        const keyValue = String.fromCharCode(keyCode);
 
-            // Allow only numbers (0-9)
-            if (!/^[0-9]+$/.test(keyValue)) {
-                event.preventDefault();
-            }
-        };
-
-        return (
-            <input minLength={0} maxLength={2} size={2} type='text' className="timeInput"
-                value={value} 
-                onKeyDown={handleKeyDown}
-                onChange={handleChange}
-            />
-        )
-    }
+        // Allow only numbers (0-9)
+        if (!/^[0-9]+$/.test(keyValue)) {
+            event.preventDefault();
+        }
+    };
 
 
-
-
+    console.log("VideoToGifTimeInput");
 
 
     return (
@@ -72,12 +97,22 @@ function VideoToGifTimeInput({ timeInputTitle, minValue = '00', secValue = '00',
                     Min
                 </div>
                 <TimeInputComponent key={'ForMinute'} handleChange={minHandleChange} value={minValue} />
+                {/* <input minLength={0} maxLength={2} size={2} type='text' className="timeInput"
+                    value={minValue}
+                    onKeyDown={handleKeyDown}
+                    onChange={minHandleChange}
+                /> */}
                 <div className="colon">:</div>
                 <TimeInputComponent key={'ForSecond'} handleChange={secHandleChange} value={secValue} />
+                {/* <input minLength={0} maxLength={2} size={2} type='text' className="timeInput"
+                    value={secValue}
+                    onKeyDown={handleKeyDown}
+                    onChange={secHandleChange}
+                /> */}
             </div>
         </div>)
 
-}
+})
 
 const UploadGround = ({ getFile = () => { }, extraCallback = () => { } }) => {
 
@@ -419,14 +454,14 @@ function UploadContainer() {
 
                     :
                     <div className="videoToGifTimeIndicatorContainer">
-                        {/* <VideoToGifTimeInput key={'StartTime'} text={'Video'} timeInputTitle={'Start Time'} minValue={startTimeMin} secValue={startTimeSec} minHandleChange={startTimeMinHandleChange} secHandleChange={startTimeSecHandleChange} />
+                        <VideoToGifTimeInput key={'StartTime'} text={'Video'} timeInputTitle={'Start Time'} minValue={startTimeMin} secValue={startTimeSec} minHandleChange={startTimeMinHandleChange} secHandleChange={startTimeSecHandleChange} />
 
                         <div className="centerSpace"></div>
-                        <VideoToGifTimeInput key={'EndTime'} text={'Gif'} timeInputTitle={'End Time'} minValue={endTimeMin} secValue={endTimeSec} minHandleChange={endTimeMinHandleChange} secHandleChange={endTimeSecHandleChange} /> */}
+                        <VideoToGifTimeInput key={'EndTime'} text={'Gif'} timeInputTitle={'End Time'} minValue={endTimeMin} secValue={endTimeSec} minHandleChange={endTimeMinHandleChange} secHandleChange={endTimeSecHandleChange} />
                     </div>
                 }
 
-                <input type="text" value={startTimeMin}  onChange={startTimeMinHandleChange}/>
+                {/* <input type="text" value={startTimeMin} onChange={startTimeMinHandleChange} /> */}
 
 
 
