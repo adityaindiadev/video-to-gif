@@ -25,7 +25,7 @@ function PopUp({ onClosePopUp = () => { }, errorPopup = false }) {
 
 
 
-                <button onClick={onClosePopUp} style={{ border: 'none', textAlign: 'center', textDecoration: 'none', backgroundColor: 'white', cursor: 'pointer' }} id="closeBtn">
+                <button onClick={onClosePopUp} style={{ border: 'none', textAlign: 'center', textDecoration: 'none', backgroundColor: 'white', cursor: 'pointer', marginTop: 10 }} id="closeBtn">
                     <img src={require('../../assets/New/ic_close.png')} alt="closePopupIcon" className="closePopupIcon" /></button>
             </div >
 

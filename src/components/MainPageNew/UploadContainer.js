@@ -203,6 +203,7 @@ function UploadContainer() {
     const [endTimeSec, setendTimeSec] = useState("00")
 
     const [dateTimeSize, setdateTimeSize] = useState('')
+    const [durationSize, setdurationSize] = useState('')
     const [progress, setProgress] = useState(0);
     const [isprogressStart, setisprogressStart] = useState(false);
 
@@ -275,7 +276,7 @@ function UploadContainer() {
             '-ss', String(minutesToSeconds(startTimeMin, startTimeSec)), // Start time
             '-i', 'test.mp4',
             '-t', String(minutesToSeconds(endTimeMin, endTimeSec) - minutesToSeconds(startTimeMin, startTimeSec)), // Duration
-            '-vf', 'fps=15,scale=320:-1:flags=lanczos', // Reduce frame rate and scale down
+            // '-vf', 'fps=15,scale=320:-1:flags=lanczos', // Reduce frame rate and scale down
             '-c:v', 'gif', // Use the GIF codec
             '-f', 'gif', 'out.gif',
         ];
@@ -341,24 +342,45 @@ function UploadContainer() {
             console.log("minutes", minutes);
 
             let tempMin = minutes.minutes
+            let tempSec = String(minutes.seconds).split('.')[0]
 
             if (String(tempMin).length === 1) {
                 tempMin = "0" + String(tempMin)
             }
 
+            if (String(tempSec).length === 1) {
+                tempSec = "0" + String(tempSec)
+            }
+
             setendTimeMin(String(tempMin))
-            setendTimeSec(String(minutes.seconds).split('.')[0])
+            setendTimeSec(String(tempSec))
 
         }
 
 
     }, [videoMetaData])
 
-    function cancelAction(params) {
 
-        // ffmpeg.exit()
+    function addDurationToDateTimeSize(dateTimeSizeValue = '') {
+
+        if (dateTimeSizeValue == '') {
+            return
+        }
+
+        console.log('addDurationToDateTimeSize', dateTimeSizeValue);
+
+        setdurationSize(`Duration: ${endTimeMin}:${endTimeSec}, Size: ${dateTimeSizeValue?.split('^')[1]}`)
 
     }
+
+
+    useEffect(() => {
+
+        (endTimeMin != '00' || endTimeSec != '00') && (dateTimeSize != '') && addDurationToDateTimeSize(dateTimeSize)
+
+
+    }, [dateTimeSize, endTimeMin, endTimeSec])
+
 
 
     function getFileFromUser(files) {
@@ -399,7 +421,7 @@ function UploadContainer() {
 
 
 
-        setdateTimeSize(moment(filesArray[0].lastModifiedDate).format('DD/MM/YYYY') + ', ' + moment(filesArray[0].lastModifiedDate).format('h:mm:ss A') + ' . ' + formatBytes(filesArray[0].size))
+        setdateTimeSize(moment(filesArray[0].lastModifiedDate).format('DD/MM/YYYY') + ', ' + moment(filesArray[0].lastModifiedDate).format('h:mm:ss A') + '^' + formatBytes(filesArray[0].size))
 
         // const date = moment(new Date(dateString).toISOString())
 
@@ -457,7 +479,7 @@ function UploadContainer() {
                         </>
                         :
 
-                        <VideoDetailsCard title={videoName} dateTimeSize={dateTimeSize} cancel={cancelVideo} />
+                        <VideoDetailsCard title={videoName} dateTimeSize={durationSize} cancel={cancelVideo} />
                 }
 
                 {/* {gif ? <img className='previewGif' src={gif} width="500" /> :
