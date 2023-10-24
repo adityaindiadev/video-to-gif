@@ -57,6 +57,7 @@ const TimeInputComponent = memo(({ handleChange = (event) => console.log('TimeIn
             value={value}
             onKeyDown={handleKeyDown}
             onChange={handleChange}
+            // style={{width: '2vw'}}
         />
     )
 })
